@@ -1,6 +1,6 @@
 /****
 
-🐬 B站APP广告优化
+🐬 B站APP按钮优化
   
 📕地址：https://github.com/toulanboy/scripts
 📌不定期更新各种签到、有趣的脚本，欢迎star🌟
@@ -37,38 +37,16 @@ let body = JSON.parse($response.body);
 
 try {
 
-    if (url.indexOf('splash\/list') != -1) { //开屏广告优化
-        let i = body.data.list.length;
+    if (url.indexOf('show\/tab') != -1) { //底部按钮
+        let i = body.data.bottom.length;
         while (i--) {
-            if (body.data.list[i].is_ad == true) {
-                body.data.list.splice(i, 1);
-            }
-        }
-        i = body.data.show.length;
-        while (i--) {
-            body.data.show[i].stime = 0;
-            body.data.show[i].etime = 1;
-        }
-    } else if (url.indexOf('feed\/index') != -1) { //信息流优化
-        let i = body.data.items.length;
-        while (i--) {
-            if (body.data.items[i].card_goto.indexOf("ad") != -1 ||
-                body.data.items[i].card_goto.indexOf("live") != -1) {
-                body.data.items.splice(i, 1);
-            } else if (body.data.items[i].card_goto.indexOf("banner") != -1) {
-                let j = body.data.items[i].banner_item.length
-                while (j--) {
-                    if (body.data.items[i].banner_item[j].hasOwnProperty("is_ad") ||
-                        (body.data.items[i].banner_item[j].hasOwnProperty("type") &&
-                            body.data.items[i].banner_item[j].type.indexOf("ad") != -1)) {
-                        body.data.items[i].banner_item.splice(j, 1);
-                    }
-                }
+            if (body.data.bottom[i].tab_id.indexOf("会员购") != -1 || body.data.bottom[i].tab_id.indexOf("publish") != -1) {
+                body.data.bottom.splice(i, 1);
             }
         }
     }
 } catch (e) {
-    console.log('ERROR: bilibili_ad , ' + e)
+    console.log('ERROR: bilibili_button, ' + e)
 }
 body = JSON.stringify(body)
 $done({
