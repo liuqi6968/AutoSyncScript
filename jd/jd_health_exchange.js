@@ -1,31 +1,35 @@
-﻿
-/*
+﻿/*
  * @Author: qqsdf
- * @Date: 2021-05-21
+ * @Date: 2021-07-06
 
-金榜创造营，最高瓜分7亿京豆！
-https://h5.m.jd.com/babelDiy/Zeus/2H5Ng86mUJLXToEo57qWkJkjFPxw/index.html?fromName=h5
-活动期间2021年5月21日至2021年12月31日，用户每日（0:00-24:00）可通过“京东APP首页-排行榜-金榜创造营”参与当天活动
+健康社区-京豆兑换
+京东APP首页-搜索-“健康社区”
+
+京豆兑换规则未知，默认兑换20京豆，如需请更改环境变量 商品编号commodityId
+商品编号查看日志
+每月可兑换三次京豆，请自行设置cron
+
 
 
  脚本或许兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 
 ===========Quantumultx===============
 [task_local]
-#金榜创造营
-0 8 * 5-12 * https://raw.githubusercontent.com/qqsdff/script/main/jd/jd_jbczy.js, tag=金榜创造营,  enabled=true
+#健康社区兑换
+0 6 * * * https://raw.githubusercontent.com/qqsdff/script/main/jd/jd_health_exchange.js, tag=健康社区兑换,  enabled=true
 
 ================Loon==============
 [Script]
-cron "0 8 * 5-12 *" script-path=https://raw.githubusercontent.com/qqsdff/script/main/jd/jd_jbczy.js,tag=金榜创造营
+cron "0 6 * * *" script-path=https://raw.githubusercontent.com/qqsdff/script/main/jd/jd_health_exchange.js,tag=健康社区兑换
 
 ===============Surge=================
-金榜创造营 = type=cron,cronexp="0 8 * 5-12 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/qqsdff/script/main/jd/jd_jbczy.js
+健康社区兑换 = type=cron,cronexp="0 6 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/qqsdff/script/main/jd/jd_health_exchange.js
 
-修改自lxk0301大佬，侵删
- * 
+ *
  */
-const $ = new Env('金榜创造营');
+
+const $ = new Env('健康社区兑换');
+let commodityId = $.getdata('commodityId') || 4;//兑换商品编号
 
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -56,6 +60,8 @@ if ($.isNode()) {
         });
         return;
     }
+    await jdhealth_getCommodities();
+    await $.wait(1000);
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i];
@@ -71,7 +77,8 @@ if ($.isNode()) {
                 });
                 continue
             }
-            await doTask();
+
+            await jdhealth_exchange();
         }
     }
 })()
@@ -81,57 +88,44 @@ if ($.isNode()) {
     .finally(() => {
         $.done();
     })
+async function jdhealth_getCommodities() {
+    console.log('获取京豆兑换列表：' + "\n");
+    var headers = {
+        "Cookie": cookiesArr[0],
+        "User-Agent": "jdapp;iPhone;10.0.8;14.6;91eaf40b15b21cbc604261ac99c6c7d46e6dcd1c;network/wifi;model/iPhone9,1;addressid/3991000806;appBuild/167728;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Host": "api.m.jd.com"
+    };
+    var commodities = await doPost("https://api.m.jd.com/?functionId=jdhealth_getCommodities&client=wh5", headers);
+    if (commodities.code == 0) {
+        //京豆兑换专区
+        var jBeans = commodities.data.result.jBeans;
+        for (let item of jBeans) {
+            console.log("商品编号:" + item.id + "--京豆:" + item.title + "--兑换所需能量:" + item.exchangePoints + "\n");
+        }
+        //一元兑换专区
+        var physicals = commodities.data.result.physicals;
+    } else {
+        console.log('获取兑换列表失败：' + commodities.msg);
+    }
 
-async function doTask() {
+}
+async function jdhealth_exchange() {
     try {
-        var goldCreatorTab = await doGet("https://api.m.jd.com/client.action?functionId=goldCreatorTab&body=%7B%22subTitleId%22%3A%22%22%2C%22isPrivateVote%22%3A%220%22%7D&appid=content_ecology&clientVersion=10.0.0&client=wh5")
-        if (goldCreatorTab.isSuccess == true) {
-            var subTitleInfos = goldCreatorTab.result.subTitleInfos;
-            var stageId = goldCreatorTab.result.mainTitleHeadInfo.stageId;
-            for (let item of subTitleInfos) {
-                var detailBody = { "groupId": item.matGrpId, "stageId": stageId, "subTitleId": item.subTitleId, "batchId": item.batchId, "skuId": "", "taskId": Number(item.taskId) }
-                var goldCreatorDetail = await doGet("https://api.m.jd.com/client.action?functionId=goldCreatorDetail&body=" + encodeURIComponent(JSON.stringify(detailBody)) + "&appid=content_ecology&clientVersion=10.0.0&client=wh5")
-                if (goldCreatorDetail.isSuccess == true) {
-                    //主题投票
-                    if (goldCreatorDetail.result.skuList != undefined) {
-                        var sku = goldCreatorDetail.result.skuList[0];
-                        var taskBody = { "stageId": stageId, "subTitleId": item.subTitleId, "skuId": sku.skuId, "taskId": Number(item.taskId), "itemId": "3", "rankId": sku.rankId, "type": 1, "batchId": item.batchId }
-                        var goldCreatorDoTask = await doGet("https://api.m.jd.com/client.action?functionId=goldCreatorDoTask&body=" + encodeURIComponent(JSON.stringify(taskBody)) + "&appid=content_ecology&clientVersion=10.0.0&client=wh5");
-                        await $.wait(700);
-                        if (goldCreatorDoTask.isSuccess == true) {
-                            message += "主题:" + item.shortTitle + "--投票给:" + sku.name + "\n";
-                            message += "投票结果:" + JSON.stringify(goldCreatorDoTask.result) + "\n\n";
-                        }
-                        else {
-                            console.log('执行投票任务失败');
-                        }
-                    }
-                    //额外任务
-                    if (goldCreatorDetail.result.taskList != undefined) {
-                        for (let task of goldCreatorDetail.result.taskList) {
-                            task = task[0];
-                            if (task.taskStatus == 1) {
-                                var taskBody = { "taskId": Number(task.taskId), "itemId": task.taskItemInfo.itemId, "taskType": task.taskType, "batchId": "1" }
-                                var goldCreatorDoTask = await doGet("https://api.m.jd.com/client.action?functionId=goldCreatorDoTask&body=" + encodeURIComponent(JSON.stringify(taskBody)) + "&appid=content_ecology&clientVersion=10.0.0&client=wh5");
-                                await $.wait(700);
-                                if (goldCreatorDoTask.isSuccess == true) {
-                                    message += "执行任务:" + task.taskName + "--" + task.taskItemInfo.title + "\n";
-                                    message += "执行结果:" + JSON.stringify(goldCreatorDoTask.result) + "\n\n";
-                                }
-                                else {
-                                    console.log('执行额外任务失败');
-                                }
-                            } else if (task.taskStatus == 2) {
-                                message += task.taskName + "----" + task.taskItemInfo.title + "---" + "任务已完成\n\n";
-
-                            }
-                        }
-                    }
-                }
-            }
-
+        var headers = {
+            "Cookie": cookie,
+            "User-Agent": "jdapp;iPhone;10.0.8;14.6;91eaf40b15b21cbc604261ac99c6c7d46e6dcd1c;network/wifi;model/iPhone9,1;addressid/3991000806;appBuild/167728;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Host": "api.m.jd.com"
+        };
+        var body = { commodityType: 2, commodityId: commodityId };
+        var jdhealth_exchange = await doPost("https://api.m.jd.com/?functionId=jdhealth_exchange&client=wh5&body=" + encodeURIComponent(JSON.stringify(body)) + "", headers);
+        if (jdhealth_exchange.data.success == true) {
+            console.log("兑换商品成功：" + jdhealth_exchange.data.result.jingBeanNum + "京豆");
+            message += "兑换商品成功：" + jdhealth_exchange.data.result.jingBeanNum + "京豆" + "\n\n";
         } else {
-            console.log('获取主题tab失败');
+            console.log('兑换商品失败：' + jdhealth_exchange.data.bizMsg);
+            message += '兑换商品失败：' + jdhealth_exchange.data.bizMsg + "\n\n";
         }
         await showMsg()
     } catch (e) {
