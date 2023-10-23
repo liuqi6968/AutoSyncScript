@@ -231,8 +231,161 @@
    "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
    "icons": ["https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/wlkd%20.png","https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/wlkd%20.png"],
    "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
-   }]
-}
+   
+},
 
-
+{
+   "id": "zmydsy",
+   "name": "阅读小说APP",
+   "keys": ["zmydcookie"],
+   "author": "@dd",
+   "settings": [{
+   "id": "zmydcookie",
+   "name": "Cookie数据",
+   "val": "1",
+   "type": "textarea",
+   "desc": "JSON格式"
+   }
+   ],
+   "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+   "icons": ["https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/wdlcs.png","https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/wdlcs.png"],
+   "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
+  
+},
+{
+   "id": "ttl",
+   "name": "太太乐APP",
+   "keys": ["ttlck"],
+   "author": "@dd",
+   "settings": [{
+   "id": "ttlck",
+   "name": "Cookie数据",
+   "val": "1",
+   "type": "textarea",
+   "desc": "JSON格式"
+   }
+   ],
+   "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+   "icons": ["https://i.loli.net/2021/11/15/YEix4VaP9nyStge.jpg","https://i.loli.net/2021/11/15/YEix4VaP9nyStge.jpg"],
+   "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
  
+  },
+ {
+    "id": "laishan",
+    "name": "来闪APP",
+    "keys": ["laishanck"],
+    "author": "@dd",
+    "settings": [{
+    "id": "laishanck",
+    "name": "Cookie数据",
+    "val": "1",
+    "type": "textarea",
+    "desc": "JSON格式"
+    }
+    ],
+    "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+    "icons": ["https://i.loli.net/2021/11/22/rjM8lVHq5dhnDNt.jpg","https://i.loli.net/2021/11/22/rjM8lVHq5dhnDNt.jpg"],
+    "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
+   
+   },
+   {
+       "id": "jztt",
+       "name": "九章头条APP",
+       "keys": ["jzttcik"],
+       "author": "@dd",
+       "settings": [{
+       "id": "jzttcik",
+       "name": "Cookie数据",
+       "val": "1",
+       "type": "textarea",
+       "desc": "JSON格式"
+ },
+ {
+ "id": "TX",
+ "name": "设置提现",
+ "val": "0.3",
+ "type": "number",
+ "desc": "默认0.3元"
+ }
+       
+       
+       ],
+       "repo": "https://github.com/DD-D1/2020scripts/blob/master/jztt.js",
+       "icons": ["https://i.loli.net/2021/11/23/KWiSdPnQkDxHzur.jpg","https://i.loli.net/2021/11/23/KWiSdPnQkDxHzur.jpg"],
+       "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/jztt.js"
+      
+      },
+      {
+          "id": "qqgy",
+          "name": "琪琪的果园",
+          "keys": ["qqgyck"],
+          "author": "@dd",
+          "settings": [{
+          "id": "qqgyck",
+          "name": "Cookie数据",
+          "val": "1",
+          "type": "textarea",
+          "desc": "JSON格式"
+          }
+          ],
+          "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+          "icons": ["https://i.loli.net/2021/11/28/sLCY2UzvhDOtfx9.jpg","https://i.loli.net/2021/11/28/sLCY2UzvhDOtfx9.jpg"],
+          "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
+         
+         },
+               {
+                   "id": "qmdfs",
+                   "name": "全民大丰收APP",
+                   "keys": ["qmdfsck"],
+                   "author": "@dd",
+                   "settings": [{
+                   "id": "qmdfsck",
+                   "name": "Cookie数据",
+                   "val": "1",
+                   "type": "textarea",
+                   "desc": "JSON格式"
+                   }
+                   ],
+                   "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+                   "icons": ["https://i.niupic.com/images/2021/09/27/9DbR.jpg","https://i.niupic.com/images/2021/09/27/9DbR.jpg"],
+                   "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
+                  
+                  },
+                   {
+                       "id": "ysysp",
+                       "name": "萤石云视频APP",
+                       "keys": ["ysyspck"],
+                       "author": "@dd",
+                       "settings": [{
+                       "id": "ysyspck",
+                       "name": "Cookie数据",
+                       "val": "1",
+                       "type": "textarea",
+                       "desc": "JSON格式"
+                       }
+                       ],
+                       "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+                       "icons": ["https://i.loli.net/2021/12/03/ixb9YKCucGNBT1R.jpg","https://i.loli.net/2021/12/03/ixb9YKCucGNBT1R.jpg"],
+                       "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
+                      
+                      },
+            
+        {
+        "id": "fhxz",
+           "name": "富豪小镇APP",
+           "keys": ["RichTown"],
+            "author": "@dd",
+           "settings": [{
+             "id": "RichTown",
+              "name": "Cookie数据",
+               "val": "1",
+               "type": "textarea",
+              "desc": "JSON格式"
+                }
+                ],
+          "repo": "https://github.com/DD-D1/2020scripts/blob/master/Forest/ForestFarm.js",
+        "icons": ["https://s2.loli.net/2021/12/04/aGl6zKA8NuxFP2e.jpg","https://s2.loli.net/2021/12/04/aGl6zKA8NuxFP2e.jpg"],
+       "script": "https://raw.githubusercontent.com/DD-D1/2020scripts/master/Forest/ForestFarm.js"
+           }]
+           }
+   
